@@ -1,7 +1,6 @@
 package hskl.de.projekt.Objects;
 
 import android.opengl.Matrix;
-import android.util.Log;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
@@ -14,7 +13,7 @@ public class SpaceShip implements Drawable {
     private float x;
     private float y;
 
-    private float vx;
+    private float velocity;
     // Color of the spaceship (red, green, blue, alpha)
     private float[] color;
 
@@ -56,14 +55,14 @@ public class SpaceShip implements Drawable {
 
     private FloatBuffer vertexBuffer;
 
-    private float leftBoundary = -1.0f;
-    private float rightBoundary = 1.0f;
-
+    private float leftBoundary = -1.2f;
+    private float rightBoundary = 1.2f;
+    private float cooldown = 0;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     public SpaceShip() {
         this.x = 0;
         this.y = -2.0f;
-        this.vx = 1;  // Initial velocity
+        this.velocity = 0;
 
         this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f}; // Red by default
 
@@ -108,8 +107,10 @@ public class SpaceShip implements Drawable {
     }
 
     public void updateShip(float fracSec) {
+        //update cooldown
+        cooldown -= fracSec;
         // Update position
-        x += vx * fracSec;
+        x += velocity * fracSec;
 
         // Collision detection with the boundaries
         if (x < leftBoundary) {
@@ -122,7 +123,7 @@ public class SpaceShip implements Drawable {
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
         // rotate the ship to make it look cool
-        rotate(0, vx * 3, 0.0f);
+        rotate(0, velocity * 3, 0.0f);
 
         //update projectiles
         ArrayList<Projectile> cpy = new ArrayList<>(projectiles);
@@ -134,12 +135,16 @@ public class SpaceShip implements Drawable {
         }
     }
 
+    /**
+     * Function to set the velocity of the spaceship
+     * @param vx
+     */
     public void setVelocity(float vx) {
-        this.vx = vx;
+        this.velocity = vx;
     }
 
     public float getVelocity() {
-        return vx;
+        return velocity;
     }
 
     public void rotate(float angleX, float angleY, float angleZ) {
@@ -150,10 +155,13 @@ public class SpaceShip implements Drawable {
     }
 
     public void shoot(){
-        if (projectiles.size() < 50) {
+        //check if the ship is off cooldown
+        if (cooldown <= 0) {
+            //create a new projectile and add it to the list of projectiles
             Projectile projectile = new Projectile(x, y);
-            Log.d("projectile created", "projectile");
             projectiles.add(projectile);
+            //set the cooldown to 0.1 seconds
+            cooldown = 0.1f;
         }
     }
 }

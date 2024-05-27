@@ -10,42 +10,41 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 public class Projectile implements Drawable {
-    private final float PROJECTILESPEED = 2;
     private float x;
     private float y;
 
     // Vertices for a narrow rectangular projectile
     private float[] vertices = {
-            // Front face (rectangle)
-            -0.25f, -0.01f, 0.05f,
-            0.25f, -0.01f, 0.05f,
-            -0.25f,  0.01f, 0.05f,
-            0.25f,  0.01f, 0.05f,
-            // Back face (rectangle)
-            -0.25f, -0.01f, -0.05f,
-            -0.25f,  0.01f, -0.05f,
-            0.25f, -0.01f, -0.05f,
-            0.25f,  0.01f, -0.05f,
+            // Front face
+            -0.01f, -0.05f,  0.05f,
+            0.01f, -0.05f,  0.05f,
+            -0.01f,  0.05f,  0.05f,
+            0.01f,  0.05f,  0.05f,
+            // Back face
+            -0.01f, -0.05f, -0.05f,
+            -0.01f,  0.05f, -0.05f,
+            0.01f, -0.05f, -0.05f,
+            0.01f,  0.05f, -0.05f,
             // Left face
-            -0.25f, -0.01f, -0.05f,
-            -0.25f, -0.01f,  0.05f,
-            -0.25f,  0.01f, -0.05f,
-            -0.25f,  0.01f,  0.05f,
+            -0.01f, -0.05f, -0.05f,
+            -0.01f, -0.05f,  0.05f,
+            -0.01f,  0.05f, -0.05f,
+            -0.01f,  0.05f,  0.05f,
             // Right face
-            0.25f, -0.01f, -0.05f,
-            0.25f, -0.01f,  0.05f,
-            0.25f,  0.01f, -0.05f,
-            0.25f,  0.01f,  0.05f,
+            0.01f, -0.05f, -0.05f,
+            0.01f, -0.05f,  0.05f,
+            0.01f,  0.05f, -0.05f,
+            0.01f,  0.05f,  0.05f,
             // Top face
-            -0.25f,  0.01f, -0.05f,
-            0.25f,  0.01f, -0.05f,
-            -0.25f,  0.01f,  0.05f,
-            0.25f,  0.01f,  0.05f,
+            -0.01f,  0.05f, -0.05f,
+            0.01f,  0.05f, -0.05f,
+            -0.01f,  0.05f,  0.05f,
+            0.01f,  0.05f,  0.05f,
             // Bottom face
-            -0.25f, -0.01f, -0.05f,
-            -0.25f, -0.01f,  0.05f,
-            0.25f, -0.01f, -0.05f,
-            0.25f, -0.01f,  0.05f
+            -0.01f, -0.05f, -0.05f,
+            -0.01f, -0.05f,  0.05f,
+            0.01f, -0.05f, -0.05f,
+            0.01f, -0.05f,  0.05f
     };
 
     private float[] color;
@@ -55,8 +54,8 @@ public class Projectile implements Drawable {
     public float[] transformationMatrix;
     private float leftBoundary = -1.0f;
     private float rightBoundary = 1.0f;
-    private float bottomBoundary = -1.0f;
-    private float topBoundary = 1.0f;
+    private float bottomBoundary = -3.0f;
+    private float topBoundary = 3.0f;
 
     public Projectile(float x, float y) {
         this.x = x;
@@ -98,8 +97,6 @@ public class Projectile implements Drawable {
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 16, 4);
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 20, 4);
 
-        Log.d("Projectile", "draw: Drawing projectile at x=" + x + ", y=" + y);
-
         // Disable vertex arrays
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
@@ -107,6 +104,7 @@ public class Projectile implements Drawable {
     }
 
     public void updateProjectile(float fracSec) {
+        float PROJECTILESPEED = 5;
         y += PROJECTILESPEED * fracSec;
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);

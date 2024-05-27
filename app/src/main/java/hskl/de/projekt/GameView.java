@@ -30,7 +30,6 @@ public class GameView extends GLSurfaceView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d("touch","touched");
         ship.shoot();
         return true;
     }
