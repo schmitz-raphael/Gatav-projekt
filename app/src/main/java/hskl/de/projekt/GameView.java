@@ -3,6 +3,8 @@ package hskl.de.projekt;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -24,6 +26,12 @@ public class GameView extends GLSurfaceView {
 
     public void setShipVelocity(float vx){
         ship.setVelocity(vx);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        ship.shoot();
+        return true;
     }
     private class GameRenderer implements GLSurfaceView.Renderer {
         private float[] modelViewScene = new float[16];
@@ -56,7 +64,7 @@ public class GameView extends GLSurfaceView {
             GLU.gluPerspective(gl, 90.0f, aspectRatio, 0.1f, 100.0f);
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadIdentity();
-            GLU.gluLookAt(gl, 0.0f, 0.0f, 3.0f, // eye
+            GLU.gluLookAt(gl, 0.0f, 0.0f, 5.0f, // eye
                     0.0f, 0.0f, 0.0f, // center
                     0.0f, 1.0f, 0.0f); // up
 

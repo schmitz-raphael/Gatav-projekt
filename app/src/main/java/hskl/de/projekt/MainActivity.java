@@ -16,14 +16,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+/**
+ * Main activity class
+ * Diese Klasse dient als Wrapper für das ganze Spiel
+ */
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-
+    //declaration of certain variables
     private GameView gameView;
     private WindowManager mWindowManager;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Display mDisplay;
 
+
+    /**
+     * Diese Funktion dient dazu, alle nötigen Sensoren und Manager zu initialisieren
+     * Außerdem wird hier die Gameview erstellt um in den Gameloop rein zu kommen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +53,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    /**
+     * bei Neustart, den Sensor wieder neu registrieren
+     */
     @Override
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
+
+    /**
+     * bei Pause, den Sensor aus dem Register nehmen
+     */
     @Override
     protected void onPause(){
         super.onPause();
         mSensorManager.unregisterListener(this);
     }
+
+    /**
+     *
+     */
     @Override
     public void onSensorChanged (SensorEvent event){
         if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER) return;
@@ -80,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
         }
         gameView.setShipVelocity(velocity);
-        Log.d("SensorChanged", "Velocity: " + velocity);
     }
 
     @Override
