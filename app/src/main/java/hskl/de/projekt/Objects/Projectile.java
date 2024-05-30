@@ -13,7 +13,7 @@ public class Projectile implements Drawable {
     private float x;
     private float y;
 
-    // Vertices for a narrow rectangular projectile
+    // form of a narrow rectangle
     private float[] vertices = {
             // Front face
             -0.01f, -0.05f,  0.05f,
@@ -52,17 +52,19 @@ public class Projectile implements Drawable {
     private FloatBuffer vertexBuffer;
 
     public float[] transformationMatrix;
-    private float leftBoundary = -1.0f;
-    private float rightBoundary = 1.0f;
-    private float bottomBoundary = -3.0f;
-    private float topBoundary = 3.0f;
+    private float leftBoundary = -3.0f;
+    private float rightBoundary = 3.0f;
+    private float bottomBoundary = -4.0f;
+    private float topBoundary = 5.0f;
 
     public Projectile(float x, float y) {
+        // initialize the position
         this.x = x;
         this.y = y;
+        //initialize the color
+        this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f};
 
-        this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f}; // Red by default
-
+        // initialize the transformation matrix and set its identity
         transformationMatrix = new float[16];
         Matrix.setIdentityM(transformationMatrix, 0);
 
@@ -74,6 +76,10 @@ public class Projectile implements Drawable {
         vertexBuffer.position(0);
     }
 
+    /**
+     * Draws the projectile on the screen
+     * @param gl -> takes an instance of the GL10 interface as parameter and draws the projectile on there
+     */
     @Override
     public void draw(GL10 gl) {
         gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -103,13 +109,24 @@ public class Projectile implements Drawable {
         gl.glPopMatrix();  // Restore the previous model view matrix
     }
 
+    /**
+     * updates the projectile position based on the elapsed time since the last call of the function
+     * @param fracSec: float -> elapsed time in seconds
+     */
     public void updateProjectile(float fracSec) {
+        //use a projectile speed to accelerate the particles
         float PROJECTILESPEED = 5;
+        //adjust the position
         y += PROJECTILESPEED * fracSec;
+        //reset the matrix identity and translate it
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
     }
 
+    /**
+     * checks if the projectile is out of bounds
+     * @return true if out of bounds, false otherwise
+     */
     public boolean isOutOfBounds() {
         return x < leftBoundary || x > rightBoundary || y < bottomBoundary || y > topBoundary;
     }

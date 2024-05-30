@@ -1,6 +1,7 @@
 package hskl.de.projekt.Objects;
 
 import android.opengl.Matrix;
+import android.util.Log;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
@@ -12,13 +13,12 @@ public class SpaceShip implements Drawable {
     // Coordinates of the spaceship
     private float x;
     private float y;
-
+    // velocity
     private float velocity;
-    // Color of the spaceship (red, green, blue, alpha)
+    // Color of the spaceship
     private float[] color;
-
+    //transformation matrix
     public float[] transformationMatrix;
-
     // Vertices for a flat rectangular prism (e.g., width = 0.5, height = 0.25, depth = 0.1)
     private float[] vertices = {
             // Front face
@@ -55,18 +55,32 @@ public class SpaceShip implements Drawable {
 
     private FloatBuffer vertexBuffer;
 
-    private float leftBoundary = -1.2f;
-    private float rightBoundary = 1.2f;
+    //define the boundaries on the left and the right
+    private float leftBoundary = -1.5f;
+    private float rightBoundary = 1.5f;
+    // track the cooldown in a variable
     private float cooldown = 0;
+    // create a list for the projectiles
     private ArrayList<Projectile> projectiles = new ArrayList<>();
+
+    /**
+     * Constructor for the class
+     * doesn't take any arguments
+     */
     public SpaceShip() {
+        //set the start coordinates to (0,-2)
         this.x = 0;
-        this.y = -2.0f;
+        this.y = -4.0f;
+
+        //set the initial velocity to 0
         this.velocity = 0;
 
-        this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f}; // Red by default
+        //set the color to white
+        this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
 
+        //initialize the transformation matrix to an empty array of length 16
         transformationMatrix = new float[16];
+        //set the matrix identity
         Matrix.setIdentityM(transformationMatrix, 0);
 
         // Initialize the vertex buffer
@@ -76,6 +90,10 @@ public class SpaceShip implements Drawable {
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
     }
+
+    /**
+     * draws the spaceship onto the the gl10 interface given as parameter
+     */
     @Override
     public void draw(GL10 gl) {
         gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -101,7 +119,9 @@ public class SpaceShip implements Drawable {
 
         gl.glPopMatrix();  // Restore the previous model view matrix
 
-        for (Projectile projectile : projectiles) {
+        //make a copy of the array to avoid concurrent modifications of the arraylist and draw the projectile
+        ArrayList<Projectile> cpy = new ArrayList<>(projectiles);
+        for (Projectile projectile : cpy) {
             projectile.draw(gl);
         }
     }
@@ -127,6 +147,7 @@ public class SpaceShip implements Drawable {
 
         //update projectiles
         ArrayList<Projectile> cpy = new ArrayList<>(projectiles);
+        Log.d("Projectiles", ""+projectiles.size());
         for (Projectile projectile : cpy) {
             projectile.updateProjectile(fracSec);
             if (projectile.isOutOfBounds()) {
@@ -143,10 +164,9 @@ public class SpaceShip implements Drawable {
         this.velocity = vx;
     }
 
-    public float getVelocity() {
-        return velocity;
-    }
-
+    /**
+     * Function to rotate the ship on the x,y,z axis by the amount given in the parameters
+     */
     public void rotate(float angleX, float angleY, float angleZ) {
         // Apply the rotations to the transformation matrix
         Matrix.rotateM(transformationMatrix, 0, angleX, 1.0f, 0.0f, 0.0f);
@@ -154,6 +174,9 @@ public class SpaceShip implements Drawable {
         Matrix.rotateM(transformationMatrix, 0, angleZ, 0.0f, 0.0f, 1.0f);
     }
 
+    /**
+     * Function to shoot a projectile
+     */
     public void shoot(){
         //check if the ship is off cooldown
         if (cooldown <= 0) {
@@ -161,7 +184,7 @@ public class SpaceShip implements Drawable {
             Projectile projectile = new Projectile(x, y);
             projectiles.add(projectile);
             //set the cooldown to 0.1 seconds
-            cooldown = 0.1f;
+            cooldown = 0.05f;
         }
     }
 }
