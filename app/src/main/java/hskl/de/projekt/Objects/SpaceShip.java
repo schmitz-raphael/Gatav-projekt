@@ -56,8 +56,8 @@ public class SpaceShip implements Drawable {
     private FloatBuffer vertexBuffer;
 
     //define the boundaries on the left and the right
-    private float leftBoundary = -1.5f;
-    private float rightBoundary = 1.5f;
+    private float leftBoundary = -2f;
+    private float rightBoundary = 2f;
     // track the cooldown in a variable
     private float cooldown = 0;
     // create a list for the projectiles
@@ -70,7 +70,7 @@ public class SpaceShip implements Drawable {
     public SpaceShip() {
         //set the start coordinates to (0,-2)
         this.x = 0;
-        this.y = -4.0f;
+        this.y = -3.5f;
 
         //set the initial velocity to 0
         this.velocity = 0;
@@ -161,7 +161,7 @@ public class SpaceShip implements Drawable {
      * @param vx
      */
     public void setVelocity(float vx) {
-        this.velocity = vx;
+        this.velocity = 2*vx;
     }
 
     /**
