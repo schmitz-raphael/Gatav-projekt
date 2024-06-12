@@ -11,17 +11,29 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import hskl.de.projekt.Objects.SpaceShip;
+import hskl.de.projekt.Objects.Alien;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameView extends GLSurfaceView {
     private GameRenderer renderer;
     public Context context;
     private SpaceShip ship = new SpaceShip();
+    private List<Alien> aliens = new ArrayList<>();
 
     public GameView(Context context) {
         super(context);
         renderer = new GameRenderer();
         setRenderer(renderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        initAliens();
+    }
+
+    private void initAliens() {
+        aliens.add(new Alien(-2.0f, 2.0f, 0.5f, 0.5f, 0.0f));
+        aliens.add(new Alien(0.0f, 2.0f, 0.5f, 0.5f, 0.0f));
+        aliens.add(new Alien(2.0f, 2.0f, 0.5f, 0.5f, 0.0f));
     }
 
     public void setShipVelocity(float vx){
@@ -90,6 +102,11 @@ public class GameView extends GLSurfaceView {
             ship.updateShip(fracSec);
             // Draw the spaceship
             ship.draw(gl);
+
+            for (Alien alien : aliens) {
+                alien.updatePosition(fracSec);
+                alien.draw(gl);
+                }
         }
     }
 }
