@@ -16,6 +16,8 @@ public class Alien implements Drawable {
     private FloatBuffer vertexBuffer;
     private float[] color;
     private float[] transformationMatrix;
+    private float leftBoundary = -2f;
+    private float rightBoundary = 2f;
 
     private float[] vertices = {
             // Front face
@@ -49,7 +51,8 @@ public class Alien implements Drawable {
             0.25f, -0.25f, -0.25f,
             0.25f, -0.25f,  0.25f
     };
-    private List<Projectile> projectiles;
+    private float row = 1.0f;
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Random random;
 
 
@@ -83,6 +86,15 @@ public class Alien implements Drawable {
         x += velocityX * deltaTime;
         y += velocityY * deltaTime;
 
+        if(x > rightBoundary){
+            x = rightBoundary;
+            y -= row;
+
+        }else if (x < leftBoundary){
+            x = leftBoundary;
+            y -= row;
+        }
+
         // Update transformation matrix with new position
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
@@ -98,7 +110,7 @@ public class Alien implements Drawable {
         projectiles.removeAll(projectilesToRemove);
 
         // Randomly shoot a projectile
-        if (random.nextInt(10) == 0) { // 1/10 chance every frame
+        if (random.nextInt(10) == 1) { // 1/10 chance every frame
             shoot();
         }
     }
