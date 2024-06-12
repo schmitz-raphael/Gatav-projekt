@@ -12,6 +12,7 @@ import javax.microedition.khronos.opengles.GL11;
 
 import hskl.de.projekt.Objects.SpaceShip;
 import hskl.de.projekt.Objects.Alien;
+import hskl.de.projekt.Objects.Projectile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,19 @@ public class GameView extends GLSurfaceView {
     }
 
     private void initAliens() {
-        aliens.add(new Alien(-2.0f, 2.0f, 0.5f, 0.5f, 0.0f));
-        aliens.add(new Alien(0.0f, 2.0f, 0.5f, 0.5f, 0.0f));
-        aliens.add(new Alien(2.0f, 2.0f, 0.5f, 0.5f, 0.0f));
+        float startX = -2.0f;
+        float startY = 3.0f;
+        float size = 0.5f;
+        float spacing = 0.5f;
+        float velocityX = 0.5f;
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 10; col++) {
+                float x = startX + col * (size + spacing);
+                float y = startY - row * (size + spacing);
+                aliens.add(new Alien(x, y, size, velocityX, 0.0f, 1));
+            }
+        }
     }
 
     public void setShipVelocity(float vx){
@@ -103,10 +114,22 @@ public class GameView extends GLSurfaceView {
             // Draw the spaceship
             ship.draw(gl);
 
+            boolean changeDirection = false;
+            for (Alien alien : aliens) {
+                if (alien.checkBoundary()) {
+                    changeDirection = true;
+                    break;
+                }
+            }
+
+            // Update and draw aliens
             for (Alien alien : aliens) {
                 alien.updatePosition(fracSec);
-                alien.draw(gl);
+                if (changeDirection) {
+                    alien.reverseDirection();
                 }
+                alien.draw(gl);
+            }
         }
     }
 }

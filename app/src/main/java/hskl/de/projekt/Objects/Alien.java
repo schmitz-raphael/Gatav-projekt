@@ -13,11 +13,13 @@ import java.util.Random;
 public class Alien implements Drawable {
     private float x, y, size;
     private float velocityX, velocityY;
+    private int lives;
     private FloatBuffer vertexBuffer;
     private float[] color;
     private float[] transformationMatrix;
-    private float leftBoundary = -2f;
-    private float rightBoundary = 2f;
+    private static final float leftBoundary = -2f;
+    private static final float rightBoundary = 2f;
+    private static final float rowDown = 0.5f;
 
     private float[] vertices = {
             // Front face
@@ -51,18 +53,19 @@ public class Alien implements Drawable {
             0.25f, -0.25f, -0.25f,
             0.25f, -0.25f,  0.25f
     };
-    private float row = 1.0f;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Random random;
 
 
-    public Alien(float x, float y, float size, float velocityX, float velocityY) {
+    public Alien(float x, float y, float size, float velocityX, float velocityY,int lives) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
         this.velocityY = velocityY;
+        this.lives = lives;
         this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f}; // Red color
+
 
         // Initialize the transformation matrix
         transformationMatrix = new float[16];
@@ -86,15 +89,6 @@ public class Alien implements Drawable {
         x += velocityX * deltaTime;
         y += velocityY * deltaTime;
 
-        if(x > rightBoundary){
-            x = rightBoundary;
-            y -= row;
-
-        }else if (x < leftBoundary){
-            x = leftBoundary;
-            y -= row;
-        }
-
         // Update transformation matrix with new position
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
@@ -110,13 +104,13 @@ public class Alien implements Drawable {
         projectiles.removeAll(projectilesToRemove);
 
         // Randomly shoot a projectile
-        if (random.nextInt(10) == 1) { // 1/10 chance every frame
+        if (random.nextInt(100) < 10) { // 1/10 chance every frame
             shoot();
         }
     }
-    public void shoot(){
-        Projectile projectile = new Projectile(x, y);
-        projectiles.add(projectile);
+
+    public void shoot() {
+        projectiles.add(new Projectile(x, y));
     }
 
 
@@ -144,8 +138,19 @@ public class Alien implements Drawable {
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
         gl.glPopMatrix();  // Restore the previous model view matrix
+
+        for (Projectile projectile : projectiles) {
+            projectile.draw(gl);
+        }
     }
 
+    public void reverseDirection() {
+        velocityX = -velocityX;
+        y -= rowDown;
+    }
+    public boolean checkBoundary() {
+        return (x <= leftBoundary || x >= rightBoundary);
+    }
 
     public float getX() {
         return x;
