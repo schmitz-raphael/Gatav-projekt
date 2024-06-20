@@ -56,8 +56,8 @@ public class SpaceShip implements Drawable {
     private FloatBuffer vertexBuffer;
 
     //define the boundaries on the left and the right
-    private float leftBoundary = -2f;
-    private float rightBoundary = 2f;
+    private float leftBoundary = -2.4f;
+    private float rightBoundary = 2.4f;
     // track the cooldown in a variable
     private float cooldown = 0;
     // create a list for the projectiles
@@ -181,7 +181,8 @@ public class SpaceShip implements Drawable {
         //check if the ship is off cooldown
         if (cooldown <= 0) {
             //create a new projectile and add it to the list of projectiles
-            Projectile projectile = new Projectile(x, y);
+            float[] color = {0.0f, 1.0f, 0.0f, 1.0f};
+            Projectile projectile = new Projectile(x, y, Direction.UP, color);
             projectiles.add(projectile);
             //set the cooldown to 0.1 seconds
             cooldown = 0.05f;
