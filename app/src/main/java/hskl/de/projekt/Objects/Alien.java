@@ -17,8 +17,8 @@ public class Alien implements Drawable {
     private FloatBuffer vertexBuffer;
     private float[] color;
     private float[] transformationMatrix;
-    private static final float leftBoundary = -2f;
-    private static final float rightBoundary = 2f;
+    private static final float leftBoundary = -2.4f;
+    private static final float rightBoundary = 2.4f;
     private static final float rowDown = 0.5f;
 
     private float[] vertices = {
@@ -85,10 +85,22 @@ public class Alien implements Drawable {
         random = new Random();
     }
 
-    public void updatePosition(float deltaTime) {
+    public void update(float deltaTime) {
+        // Update position
         x += velocityX * deltaTime;
         y += velocityY * deltaTime;
 
+        //check boundaries
+        if (x <= leftBoundary){
+            x = leftBoundary;
+            velocityX *= -1;
+            y -= rowDown;
+        }
+        if (x >= rightBoundary){
+            x = rightBoundary;
+            velocityX *= -1;
+            y -= rowDown;
+        }
         // Update transformation matrix with new position
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
@@ -104,13 +116,14 @@ public class Alien implements Drawable {
         projectiles.removeAll(projectilesToRemove);
 
         // Randomly shoot a projectile
-        if (random.nextInt(100) < 10) { // 1/10 chance every frame
+        if (random.nextInt(5000) < 10) { // 1/100 chance every frame
             shoot();
         }
     }
 
     public void shoot() {
-        projectiles.add(new Projectile(x, y));
+        float[] color = {1.0f,0.0f, 0.0f, 1.0f};
+        projectiles.add(new Projectile(x, y, Direction.DOWN, color));
     }
 
 
@@ -142,25 +155,5 @@ public class Alien implements Drawable {
         for (Projectile projectile : projectiles) {
             projectile.draw(gl);
         }
-    }
-
-    public void reverseDirection() {
-        velocityX = -velocityX;
-        y -= rowDown;
-    }
-    public boolean checkBoundary() {
-        return (x <= leftBoundary || x >= rightBoundary);
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public float getSize() {
-        return size;
     }
 }

@@ -114,20 +114,10 @@ public class GameView extends GLSurfaceView {
             // Draw the spaceship
             ship.draw(gl);
 
-            boolean changeDirection = false;
-            for (Alien alien : aliens) {
-                if (alien.checkBoundary()) {
-                    changeDirection = true;
-                    break;
-                }
-            }
 
             // Update and draw aliens
             for (Alien alien : aliens) {
-                alien.updatePosition(fracSec);
-                if (changeDirection) {
-                    alien.reverseDirection();
-                }
+                alien.update(fracSec);
                 alien.draw(gl);
             }
         }
