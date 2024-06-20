@@ -11,17 +11,40 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import hskl.de.projekt.Objects.SpaceShip;
+import hskl.de.projekt.Objects.Alien;
+import hskl.de.projekt.Objects.Projectile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameView extends GLSurfaceView {
     private GameRenderer renderer;
     public Context context;
     private SpaceShip ship = new SpaceShip();
+    private List<Alien> aliens = new ArrayList<>();
 
     public GameView(Context context) {
         super(context);
         renderer = new GameRenderer();
         setRenderer(renderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        initAliens();
+    }
+
+    private void initAliens() {
+        float startX = -2.0f;
+        float startY = 3.0f;
+        float size = 0.5f;
+        float spacing = 0.5f;
+        float velocityX = 0.5f;
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 10; col++) {
+                float x = startX + col * (size + spacing);
+                float y = startY - row * (size + spacing);
+                aliens.add(new Alien(x, y, size, velocityX, 0.0f, 1));
+            }
+        }
     }
 
     public void setShipVelocity(float vx){
@@ -90,6 +113,23 @@ public class GameView extends GLSurfaceView {
             ship.updateShip(fracSec);
             // Draw the spaceship
             ship.draw(gl);
+
+            boolean changeDirection = false;
+            for (Alien alien : aliens) {
+                if (alien.checkBoundary()) {
+                    changeDirection = true;
+                    break;
+                }
+            }
+
+            // Update and draw aliens
+            for (Alien alien : aliens) {
+                alien.updatePosition(fracSec);
+                if (changeDirection) {
+                    alien.reverseDirection();
+                }
+                alien.draw(gl);
+            }
         }
     }
 }
