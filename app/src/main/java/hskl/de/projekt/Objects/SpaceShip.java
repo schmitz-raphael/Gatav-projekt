@@ -8,12 +8,14 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpaceShip implements Drawable {
     // Coordinates of the spaceship
     private float x;
     private float y;
     // velocity
+    private int lives = 0;
     private float velocity;
     // Color of the spaceship
     private float[] color;
@@ -186,5 +188,20 @@ public class SpaceShip implements Drawable {
             //set the cooldown to 0.1 seconds
             cooldown = 0.1f;
         }
+    }
+    public float getX() {
+        return transformationMatrix[12];
+    }
+    public float getY() {
+        return transformationMatrix[13];
+    }
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+    public int getLives() {
+        return lives;
+    }
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 }

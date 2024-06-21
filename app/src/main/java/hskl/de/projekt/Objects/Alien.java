@@ -13,7 +13,6 @@ import java.util.Random;
 public class Alien implements Drawable {
     private float x, y, size;
     private float velocityX;
-    private int lives;
     private FloatBuffer vertexBuffer;
     private float[] color;
     private float[] transformationMatrix;
@@ -57,12 +56,11 @@ public class Alien implements Drawable {
     private Random random;
 
 
-    public Alien(float x, float y, float size, float velocityX,int lives) {
+    public Alien(float x, float y, float size, float velocityX) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
-        this.lives = lives;
         this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f}; // Red color
 
 
@@ -152,5 +150,14 @@ public class Alien implements Drawable {
         for (Projectile projectile : projectiles) {
             projectile.draw(gl);
         }
+    }
+    public float getX() {
+        return transformationMatrix[12];
+    }
+    public float getY() {
+        return transformationMatrix[13];
+    }
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
     }
 }
