@@ -54,10 +54,6 @@ public class Projectile implements Drawable {
     private FloatBuffer vertexBuffer;
 
     public float[] transformationMatrix;
-    private float leftBoundary = -3.0f;
-    private float rightBoundary = 3.0f;
-    private float bottomBoundary = -4.0f;
-    private float topBoundary = 5.0f;
 
     public Projectile(float x, float y, Direction direction, float[] color) {
         // initialize the position
@@ -139,6 +135,9 @@ public class Projectile implements Drawable {
      * @return true if out of bounds, false otherwise
      */
     public boolean isOutOfBounds() {
-        return x < leftBoundary || x > rightBoundary || y < bottomBoundary || y > topBoundary;
+        float topBoundary = 5.0f;
+        float bottomBoundary = -4.0f;
+        //only check upper and lower bound, because a projectile can never be oob on the sides
+        return y < bottomBoundary || y > topBoundary;
     }
 }
