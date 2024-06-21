@@ -141,4 +141,10 @@ public class Projectile implements Drawable {
     public boolean isOutOfBounds() {
         return x < leftBoundary || x > rightBoundary || y < bottomBoundary || y > topBoundary;
     }
+    public float getX() {
+        return transformationMatrix[12];
+    }
+    public float getY() {
+        return transformationMatrix[13];
+    }
 }
