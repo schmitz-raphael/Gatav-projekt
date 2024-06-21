@@ -14,6 +14,7 @@ import hskl.de.projekt.Objects.SpaceShip;
 import hskl.de.projekt.Objects.Alien;
 import hskl.de.projekt.Objects.Projectile;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class GameView extends GLSurfaceView {
             for (int col = 0; col < 10; col++) {
                 float x = startX + col * (size + spacing);
                 float y = startY - row * (size + spacing);
-                aliens.add(new Alien(x, y, size, velocityX,1));
+                aliens.add(new Alien(x, y, size, velocityX));
             }
         }
     }
@@ -108,18 +109,49 @@ public class GameView extends GLSurfaceView {
             // Load the initial model view matrix
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl11.glLoadMatrixf(modelViewScene, 0);
-
+            // Check for any Hits
+            checkHits();
             // Update the ship's position and rotation
             ship.updateShip(fracSec);
             // Draw the spaceship
             ship.draw(gl);
-
-
             // Update and draw aliens
             for (Alien alien : aliens) {
                 alien.update(fracSec);
                 alien.draw(gl);
             }
+        }
+
+        public void checkHits () {
+            //if(ship.hitCheck(aliens)) ship.setLives(ship.getLives() - 1);
+            List<Alien> aliensToRemove = new ArrayList<Alien>();
+            List<Projectile> shipProjToRemove = new ArrayList<Projectile>();
+            List<Projectile> alienProjToRemove = new ArrayList<Projectile>();
+            for (Alien alien : aliens) {
+                for (Projectile proj : ship.getProjectiles()) {
+                    float squaredDistance = ((proj.getX() - alien.getX()) * (proj.getX() - alien.getX()) + (proj.getY() - alien.getY()) * (proj.getY() - alien.getY()));
+                    if (squaredDistance < 0.01f) {
+                        aliensToRemove.add(alien);
+                        shipProjToRemove.add(proj);
+                    }
+                }
+            }
+            for (Alien alien : aliens) {
+                for (Projectile proj : alien.getProjectiles()) {
+                    float squaredDistance = ((proj.getX() - ship.getX()) * (proj.getX() - ship.getX()) + (proj.getY() - ship.getY()) * (proj.getY() - ship.getY()));
+                    if (squaredDistance < 0.1f) {
+                        alienProjToRemove.add(proj);
+                    }
+                }
+            }
+            for (Alien alien : aliensToRemove) aliens.remove(alien);
+            for (Projectile proj : shipProjToRemove) ship.getProjectiles().remove(proj);
+            for (Alien alien : aliens) {
+                for (Projectile proj : alienProjToRemove) alien.getProjectiles().remove(proj);
+            }
+            aliensToRemove.clear();
+            shipProjToRemove.clear();
+            alienProjToRemove.clear();
         }
     }
 }

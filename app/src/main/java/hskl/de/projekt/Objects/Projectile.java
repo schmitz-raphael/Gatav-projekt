@@ -140,4 +140,10 @@ public class Projectile implements Drawable {
         //only check upper and lower bound, because a projectile can never be oob on the sides
         return y < bottomBoundary || y > topBoundary;
     }
+    public float getX() {
+        return transformationMatrix[12];
+    }
+    public float getY() {
+        return transformationMatrix[13];
+    }
 }
