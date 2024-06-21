@@ -87,7 +87,7 @@ public class GameView extends GLSurfaceView {
             GLU.gluPerspective(gl, 90.0f, aspectRatio, 0.1f, 100.0f);
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadIdentity();
-            GLU.gluLookAt(gl, 0.0f, 0.0f, 5.0f, // eye
+            GLU.gluLookAt(gl, 0.0f, 0.0f, 10.0f, // eye
                     0.0f, 0.0f, 0.0f, // center
                     0.0f, 1.0f, 0.0f); // up
 
