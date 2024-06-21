@@ -42,7 +42,7 @@ public class GameView extends GLSurfaceView {
             for (int col = 0; col < 10; col++) {
                 float x = startX + col * (size + spacing);
                 float y = startY - row * (size + spacing);
-                aliens.add(new Alien(x, y, size, velocityX, 0.0f, 1));
+                aliens.add(new Alien(x, y, size, velocityX,1));
             }
         }
     }
