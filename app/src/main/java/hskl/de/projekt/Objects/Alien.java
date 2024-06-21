@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Alien implements Drawable {
     private float x, y, size;
-    private float velocityX, velocityY;
+    private float velocityX;
     private int lives;
     private FloatBuffer vertexBuffer;
     private float[] color;
@@ -57,12 +57,11 @@ public class Alien implements Drawable {
     private Random random;
 
 
-    public Alien(float x, float y, float size, float velocityX, float velocityY,int lives) {
+    public Alien(float x, float y, float size, float velocityX,int lives) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
-        this.velocityY = velocityY;
         this.lives = lives;
         this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f}; // Red color
 
@@ -88,8 +87,6 @@ public class Alien implements Drawable {
     public void update(float deltaTime) {
         // Update position
         x += velocityX * deltaTime;
-        y += velocityY * deltaTime;
-
         //check boundaries
         if (x <= leftBoundary){
             x = leftBoundary;
@@ -116,7 +113,7 @@ public class Alien implements Drawable {
         projectiles.removeAll(projectilesToRemove);
 
         // Randomly shoot a projectile
-        if (random.nextInt(5000) < 10) { // 1/100 chance every frame
+        if (random.nextInt(8000) < 10) { // 1/100 chance every frame
             shoot();
         }
     }

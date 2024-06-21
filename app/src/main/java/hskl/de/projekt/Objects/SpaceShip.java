@@ -182,10 +182,9 @@ public class SpaceShip implements Drawable {
         if (cooldown <= 0) {
             //create a new projectile and add it to the list of projectiles
             float[] color = {0.0f, 1.0f, 0.0f, 1.0f};
-            Projectile projectile = new Projectile(x, y, Direction.UP, color);
-            projectiles.add(projectile);
+            projectiles.add(new Projectile(x, y, Direction.UP, color));
             //set the cooldown to 0.1 seconds
-            cooldown = 0.05f;
+            cooldown = 0.1f;
         }
     }
 }
