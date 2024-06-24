@@ -21,48 +21,35 @@ public class Alien implements Drawable {
     private static final float rowDown = 0.5f;
 
     private float[] vertices = {
-            // Front face
-            -0.25f, -0.25f,  0.25f,
-            0.25f, -0.25f,  0.25f,
-            -0.25f,  0.25f,  0.25f,
-            0.25f,  0.25f,  0.25f,
-            // Back face
-            -0.25f, -0.25f, -0.25f,
-            -0.25f,  0.25f, -0.25f,
-            0.25f, -0.25f, -0.25f,
-            0.25f,  0.25f, -0.25f,
-            // Left face
-            -0.25f, -0.25f, -0.25f,
-            -0.25f, -0.25f,  0.25f,
-            -0.25f,  0.25f, -0.25f,
-            -0.25f,  0.25f,  0.25f,
-            // Right face
-            0.25f, -0.25f, -0.25f,
-            0.25f, -0.25f,  0.25f,
-            0.25f,  0.25f, -0.25f,
-            0.25f,  0.25f,  0.25f,
-            // Top face
-            -0.25f,  0.25f, -0.25f,
-            0.25f,  0.25f, -0.25f,
-            -0.25f,  0.25f,  0.25f,
-            0.25f,  0.25f,  0.25f,
-            // Bottom face
-            -0.25f, -0.25f, -0.25f,
-            -0.25f, -0.25f,  0.25f,
-            0.25f, -0.25f, -0.25f,
-            0.25f, -0.25f,  0.25f
+            -1.000000f, 5.000000f, 9.000000f,
+            -1.000000f, 5.000000f, 7.000000f,
+            1.000000f, 5.000000f, 7.000000f,
+            1.000000f, 5.000000f, 9.000000f,
+            -1.000000f, 3.000000f, 9.000000f,
+            -1.000000f, 3.000000f, 7.000000f,
+            1.000000f, 3.000000f, 7.000000f,
+            1.000000f, 3.000000f, 9.000000f,
+            -1.000000f, 1.000000f, 9.000000f,
+            -1.000000f, 1.000000f, 7.000000f,
+            1.000000f, 1.000000f, 7.000000f,
+            1.000000f, 1.000000f, 9.000000f,
+            -1.000000f, -1.000000f, 9.000000f,
+            -1.000000f, -1.000000f, 7.000000f,
+            1.000000f, -1.000000f, 7.000000f,
+            1.000000f, -1.000000f, 9.000000f,
     };
+
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Random random;
 
 
     public Alien(float x, float y, float size, float velocityX) {
+
         this.x = x;
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
         this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f}; // Red color
-
 
         // Initialize the transformation matrix
         transformationMatrix = new float[16];
@@ -86,12 +73,12 @@ public class Alien implements Drawable {
         // Update position
         x += velocityX * deltaTime;
         //check boundaries
-        if (x <= leftBoundary){
+        if (x <= leftBoundary) {
             x = leftBoundary;
             velocityX *= -1;
             y -= rowDown;
         }
-        if (x >= rightBoundary){
+        if (x >= rightBoundary) {
             x = rightBoundary;
             velocityX *= -1;
             y -= rowDown;
@@ -117,10 +104,9 @@ public class Alien implements Drawable {
     }
 
     public void shoot() {
-        float[] color = {1.0f,0.0f, 0.0f, 1.0f};
+        float[] color = {1.0f, 0.0f, 0.0f, 1.0f};
         projectiles.add(new Projectile(x, y, Direction.DOWN, color));
     }
-
 
     @Override
     public void draw(GL10 gl) {
