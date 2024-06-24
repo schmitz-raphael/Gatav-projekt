@@ -123,7 +123,6 @@ public class GameView extends GLSurfaceView {
         }
 
         public void checkHits () {
-            //if(ship.hitCheck(aliens)) ship.setLives(ship.getLives() - 1);
             List<Alien> aliensToRemove = new ArrayList<Alien>();
             List<Projectile> shipProjToRemove = new ArrayList<Projectile>();
             List<Projectile> alienProjToRemove = new ArrayList<Projectile>();
