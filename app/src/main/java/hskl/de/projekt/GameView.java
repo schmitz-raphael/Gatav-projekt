@@ -123,6 +123,7 @@ public class GameView extends GLSurfaceView {
             // Spawn new Aliens
             if (aliens.isEmpty()) {
                 initAliens();
+                ship.getProjectiles().clear();
             }
         }
 
@@ -133,7 +134,7 @@ public class GameView extends GLSurfaceView {
             for (Alien alien : aliens) {
                 for (Projectile proj : ship.getProjectiles()) {
                     float squaredDistance = ((proj.getX() - alien.getX()) * (proj.getX() - alien.getX()) + (proj.getY() - alien.getY()) * (proj.getY() - alien.getY()));
-                    if (squaredDistance < 0.01f) {
+                    if (squaredDistance < 0.1f) {
                         aliensToRemove.add(alien);
                         shipProjToRemove.add(proj);
                     }
