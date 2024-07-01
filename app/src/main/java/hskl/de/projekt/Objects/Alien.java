@@ -458,6 +458,7 @@ public class Alien implements Drawable {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
         gl.glScalef(0.1f,0.1f,0.1f);
+        gl.glRotatef(20f,1,0,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
         // Draw the cube faces using GL_TRIANGLES for simplicity
         for (int i = 0; i < (alienModelFaces.length / 3); i += 4) {

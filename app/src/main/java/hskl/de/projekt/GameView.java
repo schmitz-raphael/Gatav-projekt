@@ -123,6 +123,7 @@ public class GameView extends GLSurfaceView {
             // Spawn new Aliens
             if (aliens.isEmpty()) {
                 initAliens();
+                ship.getProjectiles().clear();
             }
         }
 
