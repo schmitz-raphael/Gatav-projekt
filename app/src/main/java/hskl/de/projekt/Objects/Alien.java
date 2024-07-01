@@ -460,7 +460,7 @@ public class Alien implements Drawable {
 
         // Scale, Rotate, Color
         gl.glScalef(0.15f,0.15f,0.15f);
-        gl.glRotatef(25f,0,1,0);
+        gl.glRotatef(25f,1,0,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
 
         // Draw the cubes using triangles
