@@ -32,7 +32,7 @@ public class GameView extends GLSurfaceView {
         initAliens();
     }
 
-    private void initAliens() {
+    public void initAliens() {
         float startX = -2.0f;
         float startY = 3.0f;
         float size = 0.5f;
@@ -120,13 +120,16 @@ public class GameView extends GLSurfaceView {
                 alien.update(fracSec);
                 alien.draw(gl);
             }
+            // Spawn new Aliens
+            if (aliens.isEmpty()) {
+                initAliens();
+            }
         }
 
         public void checkHits () {
-            //if(ship.hitCheck(aliens)) ship.setLives(ship.getLives() - 1);
-            List<Alien> aliensToRemove = new ArrayList<Alien>();
-            List<Projectile> shipProjToRemove = new ArrayList<Projectile>();
-            List<Projectile> alienProjToRemove = new ArrayList<Projectile>();
+            List<Alien> aliensToRemove = new ArrayList<>();
+            List<Projectile> shipProjToRemove = new ArrayList<>();
+            List<Projectile> alienProjToRemove = new ArrayList<>();
             for (Alien alien : aliens) {
                 for (Projectile proj : ship.getProjectiles()) {
                     float squaredDistance = ((proj.getX() - alien.getX()) * (proj.getX() - alien.getX()) + (proj.getY() - alien.getY()) * (proj.getY() - alien.getY()));
