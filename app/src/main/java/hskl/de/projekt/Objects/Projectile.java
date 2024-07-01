@@ -13,6 +13,8 @@ public class Projectile implements Drawable {
     private float x;
     private float y;
 
+    private Direction direction;
+
     // form of a narrow rectangle
     private float[] vertices = {
             // Front face
@@ -52,17 +54,15 @@ public class Projectile implements Drawable {
     private FloatBuffer vertexBuffer;
 
     public float[] transformationMatrix;
-    private float leftBoundary = -3.0f;
-    private float rightBoundary = 3.0f;
-    private float bottomBoundary = -4.0f;
-    private float topBoundary = 5.0f;
 
-    public Projectile(float x, float y) {
+    public Projectile(float x, float y, Direction direction, float[] color) {
         // initialize the position
         this.x = x;
         this.y = y;
+        //initialize the direction of the projectile
+        this.direction = direction;
         //initialize the color
-        this.color = new float[]{1.0f, 0.0f, 0.0f, 1.0f};
+        this.color = color;
 
         // initialize the transformation matrix and set its identity
         transformationMatrix = new float[16];
@@ -117,7 +117,14 @@ public class Projectile implements Drawable {
         //use a projectile speed to accelerate the particles
         float PROJECTILESPEED = 5;
         //adjust the position
-        y += PROJECTILESPEED * fracSec;
+        switch (direction) {
+            case UP:
+                y += PROJECTILESPEED * fracSec;
+                break;
+            case DOWN:
+                y -= PROJECTILESPEED * fracSec;
+                break;
+        }
         //reset the matrix identity and translate it
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
@@ -128,6 +135,15 @@ public class Projectile implements Drawable {
      * @return true if out of bounds, false otherwise
      */
     public boolean isOutOfBounds() {
-        return x < leftBoundary || x > rightBoundary || y < bottomBoundary || y > topBoundary;
+        float topBoundary = 5.0f;
+        float bottomBoundary = -4.0f;
+        //only check upper and lower bound, because a projectile can never be oob on the sides
+        return y < bottomBoundary || y > topBoundary;
+    }
+    public float getX() {
+        return transformationMatrix[12];
+    }
+    public float getY() {
+        return transformationMatrix[13];
     }
 }

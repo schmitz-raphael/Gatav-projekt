@@ -8,12 +8,14 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpaceShip implements Drawable {
     // Coordinates of the spaceship
     private float x;
     private float y;
     // velocity
+    private int lives = 0;
     private float velocity;
     // Color of the spaceship
     private float[] color;
@@ -56,8 +58,8 @@ public class SpaceShip implements Drawable {
     private FloatBuffer vertexBuffer;
 
     //define the boundaries on the left and the right
-    private float leftBoundary = -2f;
-    private float rightBoundary = 2f;
+    private float leftBoundary = -2.4f;
+    private float rightBoundary = 2.4f;
     // track the cooldown in a variable
     private float cooldown = 0;
     // create a list for the projectiles
@@ -181,10 +183,25 @@ public class SpaceShip implements Drawable {
         //check if the ship is off cooldown
         if (cooldown <= 0) {
             //create a new projectile and add it to the list of projectiles
-            Projectile projectile = new Projectile(x, y);
-            projectiles.add(projectile);
+            float[] color = {0.0f, 1.0f, 0.0f, 1.0f};
+            projectiles.add(new Projectile(x, y, Direction.UP, color));
             //set the cooldown to 0.1 seconds
-            cooldown = 0.05f;
+            cooldown = 0.1f;
         }
+    }
+    public float getX() {
+        return transformationMatrix[12];
+    }
+    public float getY() {
+        return transformationMatrix[13];
+    }
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+    public int getLives() {
+        return lives;
+    }
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 }

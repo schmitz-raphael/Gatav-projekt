@@ -14,6 +14,7 @@ import hskl.de.projekt.Objects.SpaceShip;
 import hskl.de.projekt.Objects.Alien;
 import hskl.de.projekt.Objects.Projectile;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class GameView extends GLSurfaceView {
         initAliens();
     }
 
-    private void initAliens() {
+    public void initAliens() {
         float startX = -2.0f;
         float startY = 3.0f;
         float size = 0.5f;
@@ -42,7 +43,7 @@ public class GameView extends GLSurfaceView {
             for (int col = 0; col < 10; col++) {
                 float x = startX + col * (size + spacing);
                 float y = startY - row * (size + spacing);
-                aliens.add(new Alien(x, y, size, velocityX, 0.0f, 1));
+                aliens.add(new Alien(x, y, size, velocityX));
             }
         }
     }
@@ -87,7 +88,7 @@ public class GameView extends GLSurfaceView {
             GLU.gluPerspective(gl, 90.0f, aspectRatio, 0.1f, 100.0f);
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadIdentity();
-            GLU.gluLookAt(gl, 0.0f, 0.0f, 5.0f, // eye
+            GLU.gluLookAt(gl, 0.0f, 0.0f, 10.0f, // eye
                     0.0f, 0.0f, 0.0f, // center
                     0.0f, 1.0f, 0.0f); // up
 
@@ -108,28 +109,53 @@ public class GameView extends GLSurfaceView {
             // Load the initial model view matrix
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl11.glLoadMatrixf(modelViewScene, 0);
-
+            // Check for any Hits
+            checkHits();
             // Update the ship's position and rotation
             ship.updateShip(fracSec);
             // Draw the spaceship
             ship.draw(gl);
-
-            boolean changeDirection = false;
-            for (Alien alien : aliens) {
-                if (alien.checkBoundary()) {
-                    changeDirection = true;
-                    break;
-                }
-            }
-
             // Update and draw aliens
             for (Alien alien : aliens) {
-                alien.updatePosition(fracSec);
-                if (changeDirection) {
-                    alien.reverseDirection();
-                }
+                alien.update(fracSec);
                 alien.draw(gl);
             }
+            // Spawn new Aliens
+            if (aliens.isEmpty()) {
+                initAliens();
+                ship.getProjectiles().clear();
+            }
+        }
+
+        public void checkHits () {
+            List<Alien> aliensToRemove = new ArrayList<>();
+            List<Projectile> shipProjToRemove = new ArrayList<>();
+            List<Projectile> alienProjToRemove = new ArrayList<>();
+            for (Alien alien : aliens) {
+                for (Projectile proj : ship.getProjectiles()) {
+                    float squaredDistance = ((proj.getX() - alien.getX()) * (proj.getX() - alien.getX()) + (proj.getY() - alien.getY()) * (proj.getY() - alien.getY()));
+                    if (squaredDistance < 0.1f) {
+                        aliensToRemove.add(alien);
+                        shipProjToRemove.add(proj);
+                    }
+                }
+            }
+            for (Alien alien : aliens) {
+                for (Projectile proj : alien.getProjectiles()) {
+                    float squaredDistance = ((proj.getX() - ship.getX()) * (proj.getX() - ship.getX()) + (proj.getY() - ship.getY()) * (proj.getY() - ship.getY()));
+                    if (squaredDistance < 0.1f) {
+                        alienProjToRemove.add(proj);
+                    }
+                }
+            }
+            for (Alien alien : aliensToRemove) aliens.remove(alien);
+            for (Projectile proj : shipProjToRemove) ship.getProjectiles().remove(proj);
+            for (Alien alien : aliens) {
+                for (Projectile proj : alienProjToRemove) alien.getProjectiles().remove(proj);
+            }
+            aliensToRemove.clear();
+            shipProjToRemove.clear();
+            alienProjToRemove.clear();
         }
     }
 }
