@@ -459,14 +459,14 @@ public class Alien implements Drawable {
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
 
         // Scale, Rotate, Color
-        gl.glScalef(0.1f,0.1f,0.1f);
-        gl.glRotatef(10f,1,0,0);
+        gl.glScalef(0.15f,0.15f,0.15f);
+        gl.glRotatef(25f,0,1,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
 
         // Draw the cubes using triangles
         for (int i = 0; i < (alienModelFaces.length / 3); i++) {
             alienFacesBuffer.position(3 * i);
-            gl.glDrawElements(GL10.GL_LINE_LOOP, 3, GL10.GL_UNSIGNED_SHORT, alienFacesBuffer);
+            gl.glDrawElements(GL10.GL_TRIANGLES, 3, GL10.GL_UNSIGNED_SHORT, alienFacesBuffer);
         }
 
         // Disable vertex arrays
