@@ -16,12 +16,10 @@ public class Alien implements Drawable {
     private float velocityX;
     private static FloatBuffer alienVerticesBuffer;
     private static ShortBuffer alienFacesBuffer;
-    private float[] color;
     private float[] transformationMatrix;
     private static final float leftBoundary = -2.4f;
     private static final float rightBoundary = 2.4f;
     private static final float rowDown = 0.5f;
-
 
     private static final float[] alienModelVertices = {
             1.0f, 5.0f, 9.0f,
@@ -366,9 +364,20 @@ public class Alien implements Drawable {
             130, 134, 132,
             130, 132, 128,
             135, 131, 129,
-            135, 129, 133
+            135, 129, 133,
+            136, 137, 139,
+            136, 139, 138,
+            138, 139, 143,
+            138, 143, 142,
+            142, 143, 141,
+            142, 141, 140,
+            140, 141, 137,
+            140, 137, 136,
+            138, 142, 140,
+            138, 140, 136,
+            143, 139, 137,
+            143, 137, 141
     };
-
 
 
     private ArrayList<Projectile> projectiles = new ArrayList<>();
@@ -381,7 +390,6 @@ public class Alien implements Drawable {
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
-        this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
 
         // Initialize the transformation matrix
         transformationMatrix = new float[16];
@@ -457,9 +465,7 @@ public class Alien implements Drawable {
         // Enable vertex arrays
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
-        gl.glScalef(0.1f,0.1f,0.1f);
-        gl.glRotatef(20f,1,0,0);
-        gl.glColor4f(color[0],color[1],color[2],color[3]);
+
         // Draw the cube faces using GL_TRIANGLES for simplicity
         for (int i = 0; i < (alienModelFaces.length / 3); i += 4) {
             alienFacesBuffer.position(3 * i);
