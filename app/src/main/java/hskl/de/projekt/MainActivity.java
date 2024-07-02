@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Surface;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Display mDisplay;
+    private MediaPlayer bgMusic;
 
 
     /**
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setContentView(gameView);
 
+        bgMusic = MediaPlayer.create(this, R.raw.music);
+        bgMusic.setLooping(true);
+        bgMusic.start();
     }
 
     /**
@@ -55,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        if (bgMusic != null && !bgMusic.isPlaying()) {
+            bgMusic.start();
+        }
     }
 
     /**
@@ -64,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause(){
         super.onPause();
         mSensorManager.unregisterListener(this);
+        if (bgMusic != null && bgMusic.isPlaying()) {
+            bgMusic.pause();
+        }
     }
 
     /**

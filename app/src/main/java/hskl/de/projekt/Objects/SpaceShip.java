@@ -1,7 +1,9 @@
 package hskl.de.projekt.Objects;
 
+import android.media.MediaPlayer;
 import android.opengl.Matrix;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
@@ -64,6 +66,7 @@ public class SpaceShip implements Drawable {
     private float cooldown = 0;
     // create a list for the projectiles
     private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private MediaPlayer fireSound;
 
     /**
      * Constructor for the class
@@ -91,7 +94,10 @@ public class SpaceShip implements Drawable {
         vertexBuffer = byteBuffer.asFloatBuffer();
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
+
+        /*fireSound = MediaPlayer.create(this, R.raw.fire);*/
     }
+
 
     /**
      * draws the spaceship onto the the gl10 interface given as parameter
@@ -187,6 +193,7 @@ public class SpaceShip implements Drawable {
             projectiles.add(new Projectile(x, y, Direction.UP, color));
             //set the cooldown to 0.1 seconds
             cooldown = 0.1f;
+            fireSound.start();
         }
     }
     public float getX() {
