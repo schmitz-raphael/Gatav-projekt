@@ -1,8 +1,7 @@
-package hskl.de.projekt.Objects;
+package hskl.de.projekt.Objects.Aliens;
 
 import android.opengl.Matrix;
 
-import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -11,7 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Alien implements Drawable {
+import javax.microedition.khronos.opengles.GL10;
+
+import hskl.de.projekt.Objects.Direction;
+import hskl.de.projekt.Objects.Drawable;
+import hskl.de.projekt.Objects.Projectile;
+
+public class Alien2 implements Drawable {
     private float x, y, size;
     private float velocityX;
     private static FloatBuffer alienVerticesBuffer;
@@ -375,7 +380,7 @@ public class Alien implements Drawable {
     private Random random;
 
 
-    public Alien(float x, float y, float size, float velocityX) {
+    public Alien2(float x, float y, float size, float velocityX) {
 
         this.x = x;
         this.y = y;

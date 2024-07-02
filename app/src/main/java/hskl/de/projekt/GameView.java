@@ -3,7 +3,6 @@ package hskl.de.projekt;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -11,10 +10,9 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import hskl.de.projekt.Objects.SpaceShip;
-import hskl.de.projekt.Objects.Alien;
+import hskl.de.projekt.Objects.Aliens.Alien;
 import hskl.de.projekt.Objects.Projectile;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
