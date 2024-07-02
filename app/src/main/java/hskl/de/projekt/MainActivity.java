@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Surface;
@@ -11,10 +12,12 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+
 /**
  * Main activity class
  * Diese Klasse dient als Wrapper für das ganze Spiel
  */
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     //declaration of certain variables
     private GameView gameView;
@@ -22,12 +25,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Display mDisplay;
-
+    private MediaPlayer bgMusic;
 
     /**
      * Diese Funktion dient dazu, alle nötigen Sensoren und Manager zu initialisieren
      * Außerdem wird hier die Gameview erstellt um in den Gameloop rein zu kommen
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setContentView(gameView);
 
+        bgMusic = MediaPlayer.create(this, R.raw.music);
+        bgMusic.setLooping(true);
+        bgMusic.start();
+
     }
 
     /**
@@ -55,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        if (bgMusic != null && !bgMusic.isPlaying()) {
+            bgMusic.start();
+        }
     }
 
     /**
@@ -64,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause(){
         super.onPause();
         mSensorManager.unregisterListener(this);
+        if (bgMusic != null && bgMusic.isPlaying()) {
+            bgMusic.pause();
+        }
     }
 
     /**

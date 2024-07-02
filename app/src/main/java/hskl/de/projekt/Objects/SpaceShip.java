@@ -10,6 +10,9 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import hskl.de.projekt.R;
+
+
 public class SpaceShip implements Drawable {
     // Coordinates of the spaceship
     private float x;

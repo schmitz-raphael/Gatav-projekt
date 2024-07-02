@@ -176,7 +176,7 @@ public class Alien implements Drawable {
             2.5f, 1.0f, -6.11f,
     };
 
-    private static final short[] alienModelFaces= {
+    private static final short[] alienModelFaces = {
             0, 4, 6, 2, 3, 2, 6, 7, 7, 6, 4, 5, 5, 1, 3, 7, 5, 4, 0, 1, 7, 3, 0, 1,
             8, 12, 14, 10, 11, 10, 14, 15, 15, 14, 12, 13, 13, 9, 11, 15, 13, 12, 8, 9, 15, 11, 8, 9,
             16, 20, 22, 18, 19, 18, 22, 23, 23, 22, 20, 21, 21, 17, 19, 23, 21, 20, 16, 17, 23, 19, 16, 17,
