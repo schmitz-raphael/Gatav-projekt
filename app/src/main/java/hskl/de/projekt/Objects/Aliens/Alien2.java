@@ -1,8 +1,7 @@
-package hskl.de.projekt.Objects;
+package hskl.de.projekt.Objects.Aliens;
 
 import android.opengl.Matrix;
 
-import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -11,7 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Alien implements Drawable {
+import javax.microedition.khronos.opengles.GL10;
+
+import hskl.de.projekt.Objects.Direction;
+import hskl.de.projekt.Objects.Drawable;
+import hskl.de.projekt.Objects.Projectile;
+
+public class Alien2 implements Drawable {
     private float x, y, size;
     private float velocityX;
     private static FloatBuffer alienVerticesBuffer;
@@ -375,7 +380,7 @@ public class Alien implements Drawable {
     private Random random;
 
 
-    public Alien(float x, float y, float size, float velocityX) {
+    public Alien2(float x, float y, float size, float velocityX) {
 
         this.x = x;
         this.y = y;
@@ -457,13 +462,16 @@ public class Alien implements Drawable {
         // Enable vertex arrays
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
-        gl.glScalef(0.1f,0.1f,0.1f);
-        gl.glRotatef(20f,1,0,0);
+
+        // Scale, Rotate, Color
+        gl.glScalef(0.15f,0.15f,0.15f);
+        gl.glRotatef(25f,1,0,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
-        // Draw the cube faces using GL_TRIANGLES for simplicity
-        for (int i = 0; i < (alienModelFaces.length / 3); i += 4) {
+
+        // Draw the cubes using triangles
+        for (int i = 0; i < (alienModelFaces.length / 3); i++) {
             alienFacesBuffer.position(3 * i);
-            gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, i, 4);
+            gl.glDrawElements(GL10.GL_TRIANGLES, 3, GL10.GL_UNSIGNED_SHORT, alienFacesBuffer);
         }
 
         // Disable vertex arrays
