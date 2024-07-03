@@ -601,37 +601,6 @@ public class Alien2 extends AlienMaster implements Drawable {
             -4.000000f, 12.000000f, -4.000000f
     };
 
-    private static final float[] alienModelTextures = {
-            0.375000f, 0.000000f,
-            0.625000f, 0.000000f,
-            0.625000f, 0.250000f,
-            0.375000f, 0.250000f,
-            0.625000f, 0.500000f,
-            0.375000f, 0.500000f,
-            0.625000f, 0.750000f,
-            0.375000f, 0.750000f,
-            0.625000f, 1.000000f,
-            0.375000f, 1.000000f,
-            0.875000f, 0.000000f,
-            0.125000f, 0.000000f,
-            0.125000f, 0.250000f,
-            0.875000f, 0.250000f,
-            0.125000f, 0.500000f,
-            0.875000f, 0.500000f,
-            0.125000f, 0.750000f,
-            0.875000f, 0.750000f,
-            0.125000f, 1.000000f,
-            0.875000f, 1.000000f
-    };
-
-    private static final float[] alienModelNormals = {
-            0.0000f, 0.0000f, -1.0000f,
-            -1.0000f, 0.0000f, 0.0000f,
-            0.0000f, -1.0000f, 0.0000f,
-            1.0000f, 0.0000f, 0.0000f,
-            0.0000f, 1.0000f, 0.0000f,
-            0.0000f, 0.0000f, 1.0000f
-    };
 
     private static final short[] alienModelFaces = {
             1, 2, 4, 1, 4, 3,
@@ -1062,8 +1031,6 @@ public class Alien2 extends AlienMaster implements Drawable {
             568, 564, 562, 568, 562, 566
     };
 
-
-
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private Random random;
 
@@ -1088,17 +1055,11 @@ public class Alien2 extends AlienMaster implements Drawable {
         alienVerticesBuffer.put(alienModelVertices);
         alienVerticesBuffer.position(0);
 
-        ByteBuffer alienNormalsBB = ByteBuffer.allocateDirect(alienModelNormals.length * 4);
-        alienNormalsBB.order(ByteOrder.nativeOrder());
-        alienNormalsBuffer = alienNormalsBB.asFloatBuffer();
-        alienNormalsBuffer.put(alienModelNormals);
-        alienNormalsBuffer.position(0);
-
-        ByteBuffer alienTexturesBB = ByteBuffer.allocateDirect(alienModelTextures.length * 4);
-        alienTexturesBB.order(ByteOrder.nativeOrder());
-        alienTexturesBuffer = alienTexturesBB.asFloatBuffer();
-        alienTexturesBuffer.put(alienModelTextures);
-        alienTexturesBuffer.position(0);
+        ByteBuffer alienFacesBB = ByteBuffer.allocateDirect(alienModelFaces.length * 2);
+        alienFacesBB.order(ByteOrder.nativeOrder());
+        alienFacesBuffer = alienFacesBB.asShortBuffer();
+        alienFacesBuffer.put(alienModelFaces);
+        alienFacesBuffer.position(0);
 
         // Initialize projectiles and random generator
         projectiles = new ArrayList<>();
@@ -1156,12 +1117,6 @@ public class Alien2 extends AlienMaster implements Drawable {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
 
-        gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
-        gl.glNormalPointer(GL10.GL_FLOAT, 0, alienNormalsBuffer);
-
-        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, alienTexturesBuffer);
-
         // Scale, Rotate, Color
         gl.glScalef(0.10f,0.10f,0.10f);
         gl.glRotatef(25f,1,0,0);
@@ -1175,8 +1130,6 @@ public class Alien2 extends AlienMaster implements Drawable {
 
         // Disable vertex arrays
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
-        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
         gl.glPopMatrix();  // Restore the previous model view matrix
 
