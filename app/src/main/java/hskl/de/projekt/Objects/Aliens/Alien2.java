@@ -16,7 +16,7 @@ import hskl.de.projekt.Objects.Direction;
 import hskl.de.projekt.Objects.Drawable;
 import hskl.de.projekt.Objects.Projectile;
 
-public class Alien2 implements Drawable {
+public class Alien2 extends AlienMaster implements Drawable {
     private float x, y, size;
     private float velocityX;
     private static FloatBuffer alienVerticesBuffer;
@@ -294,7 +294,6 @@ public class Alien2 implements Drawable {
 
 
     public Alien2(float x, float y, float size, float velocityX) {
-
         this.x = x;
         this.y = y;
         this.size = size;
@@ -377,7 +376,7 @@ public class Alien2 implements Drawable {
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
 
         // Scale, Rotate, Color
-        gl.glScalef(0.15f,0.15f,0.15f);
+        gl.glScalef(0.10f,0.10f,0.10f);
         gl.glRotatef(25f,1,0,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
 

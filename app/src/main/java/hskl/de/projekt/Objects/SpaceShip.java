@@ -73,9 +73,9 @@ public class SpaceShip implements Drawable {
      * doesn't take any arguments
      */
     public SpaceShip() {
-        //set the start coordinates to (0,-2)
+        //set the start coordinates
         this.x = 0;
-        this.y = -3.5f;
+        this.y = -6.5f;
 
         //set the initial velocity to 0
         this.velocity = 0;
@@ -193,7 +193,7 @@ public class SpaceShip implements Drawable {
             projectiles.add(new Projectile(x, y, Direction.UP, color));
             //set the cooldown to 0.1 seconds
             cooldown = 0.1f;
-            fireSound.start();
+            //fireSound.start();
         }
     }
     public float getX() {

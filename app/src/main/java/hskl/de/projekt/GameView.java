@@ -9,6 +9,10 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import hskl.de.projekt.Objects.Aliens.Alien1;
+import hskl.de.projekt.Objects.Aliens.Alien2;
+import hskl.de.projekt.Objects.Aliens.Alien3;
+import hskl.de.projekt.Objects.Aliens.AlienMaster;
 import hskl.de.projekt.Objects.SpaceShip;
 import hskl.de.projekt.Objects.Aliens.Alien;
 import hskl.de.projekt.Objects.Projectile;
@@ -20,7 +24,7 @@ public class GameView extends GLSurfaceView {
     private GameRenderer renderer;
     public Context context;
     private SpaceShip ship = new SpaceShip();
-    private List<Alien> aliens = new ArrayList<>();
+    private List<AlienMaster> aliens = new ArrayList<>();
 
     public GameView(Context context) {
         super(context);
@@ -32,18 +36,30 @@ public class GameView extends GLSurfaceView {
 
     public void initAliens() {
         float startX = -2.0f;
-        float startY = 3.0f;
+        float startY = 5.0f;
         float size = 0.5f;
-        float spacing = 0.5f;
+        //float spacing = 1f;
         float velocityX = 0.5f;
 
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 10; col++) {
-                float x = startX + col * (size + spacing);
-                float y = startY - row * (size + spacing);
-                aliens.add(new Alien(x, y, size, velocityX));
-            }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien(startX+i,startY,size,velocityX));
         }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien1(startX+i,startY+2,size,velocityX));
+        }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien2(startX+i,startY+3,size,velocityX));
+        }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien3(startX+i,startY+4,size,velocityX));
+        }
+//        for (int row = 0; row < 4; row++) {
+//            for (int col = 0; col < 10; col++) {
+//                float x = startX + col * (size + spacing);
+//                float y = startY - row * (size + spacing);
+//                aliens.add(new Alien3(x, y, size, velocityX));
+//            }
+//        }
     }
 
     public void setShipVelocity(float vx){
@@ -114,7 +130,7 @@ public class GameView extends GLSurfaceView {
             // Draw the spaceship
             ship.draw(gl);
             // Update and draw aliens
-            for (Alien alien : aliens) {
+            for (AlienMaster alien : aliens) {
                 alien.update(fracSec);
                 alien.draw(gl);
             }
@@ -126,10 +142,10 @@ public class GameView extends GLSurfaceView {
         }
 
         public void checkHits () {
-            List<Alien> aliensToRemove = new ArrayList<>();
+            List<AlienMaster> aliensToRemove = new ArrayList<>();
             List<Projectile> shipProjToRemove = new ArrayList<>();
             List<Projectile> alienProjToRemove = new ArrayList<>();
-            for (Alien alien : aliens) {
+            for (AlienMaster alien : aliens) {
                 for (Projectile proj : ship.getProjectiles()) {
                     float squaredDistance = ((proj.getX() - alien.getX()) * (proj.getX() - alien.getX()) + (proj.getY() - alien.getY()) * (proj.getY() - alien.getY()));
                     if (squaredDistance < 0.20f) {
@@ -138,7 +154,7 @@ public class GameView extends GLSurfaceView {
                     }
                 }
             }
-            for (Alien alien : aliens) {
+            for (AlienMaster alien : aliens) {
                 for (Projectile proj : alien.getProjectiles()) {
                     float squaredDistance = ((proj.getX() - ship.getX()) * (proj.getX() - ship.getX()) + (proj.getY() - ship.getY()) * (proj.getY() - ship.getY()));
                     if (squaredDistance < 0.1f) {
@@ -146,9 +162,9 @@ public class GameView extends GLSurfaceView {
                     }
                 }
             }
-            for (Alien alien : aliensToRemove) aliens.remove(alien);
+            for (AlienMaster alien : aliensToRemove) aliens.remove(alien);
             for (Projectile proj : shipProjToRemove) ship.getProjectiles().remove(proj);
-            for (Alien alien : aliens) {
+            for (AlienMaster alien : aliens) {
                 for (Projectile proj : alienProjToRemove) alien.getProjectiles().remove(proj);
             }
             aliensToRemove.clear();
