@@ -135,6 +135,7 @@ public class Projectile implements Drawable {
      * @return true if out of bounds, false otherwise
      */
     public boolean isOutOfBounds() {
+
         float topBoundary = 9.0f;
         float bottomBoundary = -7.0f;
         //only check upper and lower bound, because a projectile can never be oob on the sides
