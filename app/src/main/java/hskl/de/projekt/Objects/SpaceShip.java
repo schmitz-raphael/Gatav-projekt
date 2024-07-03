@@ -66,8 +66,6 @@ public class SpaceShip implements Drawable {
     private float cooldown = 0;
     // create a list for the projectiles
     private ArrayList<Projectile> projectiles = new ArrayList<>();
-    private MediaPlayer fireSound;
-
     /**
      * Constructor for the class
      * doesn't take any arguments
@@ -94,8 +92,6 @@ public class SpaceShip implements Drawable {
         vertexBuffer = byteBuffer.asFloatBuffer();
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
-
-        /*fireSound = MediaPlayer.create(this, R.raw.fire);*/
     }
 
 
@@ -186,15 +182,14 @@ public class SpaceShip implements Drawable {
      * Function to shoot a projectile
      */
     public void shoot(){
-        //check if the ship is off cooldown
-        if (cooldown <= 0) {
-            //create a new projectile and add it to the list of projectiles
-            float[] color = {0.0f, 1.0f, 0.0f, 1.0f};
-            projectiles.add(new Projectile(x, y, Direction.UP, color));
-            //set the cooldown to 0.1 seconds
-            cooldown = 0.1f;
-            fireSound.start();
-        }
+        //create a new projectile and add it to the list of projectiles
+        float[] color = {0.0f, 1.0f, 0.0f, 1.0f};
+        projectiles.add(new Projectile(x, y, Direction.UP, color));
+        //set the cooldown to 0.5 seconds
+        cooldown = 0.2f;
+    }
+    public float getCooldown(){
+        return cooldown;
     }
     public float getX() {
         return transformationMatrix[12];

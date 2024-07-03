@@ -1,6 +1,7 @@
 package hskl.de.projekt;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.view.MotionEvent;
@@ -31,14 +32,14 @@ public class GameView extends GLSurfaceView {
     }
 
     public void initAliens() {
-        float startX = -2.0f;
-        float startY = 3.0f;
+        float startX = -3.0f;
+        float startY = 7.0f;
         float size = 0.5f;
-        float spacing = 0.5f;
+        float spacing = 1.0f;
         float velocityX = 0.5f;
 
         for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 10; col++) {
+            for (int col = 0; col < 4; col++) {
                 float x = startX + col * (size + spacing);
                 float y = startY - row * (size + spacing);
                 aliens.add(new Alien(x, y, size, velocityX));
@@ -52,7 +53,19 @@ public class GameView extends GLSurfaceView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        ship.shoot();
+        if (ship.getCooldown() <= 0){
+            ship.shoot();
+            MediaPlayer fireSound = MediaPlayer.create(getContext(), R.raw.fire);
+            fireSound.start();
+            // Set an OnCompletionListener to release the MediaPlayer once the sound has finished playing
+            fireSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+        }
+
         return true;
     }
     private class GameRenderer implements GLSurfaceView.Renderer {
