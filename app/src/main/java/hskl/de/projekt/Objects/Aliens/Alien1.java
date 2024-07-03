@@ -174,7 +174,7 @@ public class Alien1 extends AlienMaster implements Drawable{
             2.500000f, 0.000000f, -5.110001f,
             2.500000f, 1.000000f, -5.110001f,
             2.500000f, 0.000000f, -6.110001f,
-            2.500000f, 1.000000f, -6.110001f,
+            2.500000f, 1.000000f, -6.110001f
     };
 
     private static final float[] alienModelNormals = {
@@ -183,7 +183,7 @@ public class Alien1 extends AlienMaster implements Drawable{
             -1.0000f, -0.0000f, -0.0000f,
             -0.0000f, -1.0000f, -0.0000f,
             1.0000f, -0.0000f, -0.0000f,
-            -0.0000f, -0.0000f, -1.0000f,
+            -0.0000f, -0.0000f, -1.0000f
     };
 
     private static final float[] alienModelTextures = {
@@ -200,7 +200,7 @@ public class Alien1 extends AlienMaster implements Drawable{
             0.375000f, 0.250000f,
             0.125000f, 0.500000f,
             0.375000f, 0.500000f,
-            0.125000f, 0.750000f,
+            0.125000f, 0.750000f
     };
 
     private static final short[] alienModelFaces = {
