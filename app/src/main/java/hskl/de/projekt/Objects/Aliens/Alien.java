@@ -15,7 +15,7 @@ import hskl.de.projekt.Objects.Direction;
 import hskl.de.projekt.Objects.Drawable;
 import hskl.de.projekt.Objects.Projectile;
 
-public class Alien implements Drawable {
+public class Alien extends AlienMaster implements Drawable {
     private float x, y, size;
     private float velocityX;
     private static FloatBuffer alienVerticesBuffer;
