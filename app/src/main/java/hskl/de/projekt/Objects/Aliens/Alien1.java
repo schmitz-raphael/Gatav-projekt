@@ -23,9 +23,9 @@ public class Alien1 extends AlienMaster implements Drawable{
     private static ShortBuffer alienFacesBuffer;
     private float[] color;
     private float[] transformationMatrix;
-    private static final float leftBoundary = -2.4f;
-    private static final float rightBoundary = 2.4f;
-    private static final float rowDown = 0.5f;
+    private static final float leftBoundary = -3.0f;
+    private static final float rightBoundary = 3.0f;
+    private static final float rowDown = 1.5f;
 
 
     private static final float[] alienModelVertices = {
