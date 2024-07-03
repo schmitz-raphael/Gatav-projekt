@@ -9,6 +9,9 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import hskl.de.projekt.Objects.Aliens.Alien1;
+import hskl.de.projekt.Objects.Aliens.Alien2;
+import hskl.de.projekt.Objects.Aliens.Alien3;
 import hskl.de.projekt.Objects.SpaceShip;
 import hskl.de.projekt.Objects.Aliens.Alien;
 import hskl.de.projekt.Objects.Projectile;
@@ -32,18 +35,30 @@ public class GameView extends GLSurfaceView {
 
     public void initAliens() {
         float startX = -2.0f;
-        float startY = 3.0f;
+        float startY = 5.0f;
         float size = 0.5f;
-        float spacing = 0.5f;
+        //float spacing = 1f;
         float velocityX = 0.5f;
 
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 10; col++) {
-                float x = startX + col * (size + spacing);
-                float y = startY - row * (size + spacing);
-                aliens.add(new Alien(x, y, size, velocityX));
-            }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien(startX+i,startY,size,velocityX));
         }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien1(startX+i,startY+2,size,velocityX));
+        }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien2(startX+i,startY+3,size,velocityX));
+        }
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new Alien3(startX+i,startY+4,size,velocityX));
+        }
+//        for (int row = 0; row < 4; row++) {
+//            for (int col = 0; col < 10; col++) {
+//                float x = startX + col * (size + spacing);
+//                float y = startY - row * (size + spacing);
+//                aliens.add(new Alien3(x, y, size, velocityX));
+//            }
+//        }
     }
 
     public void setShipVelocity(float vx){
