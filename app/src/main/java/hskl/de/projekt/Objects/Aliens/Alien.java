@@ -385,7 +385,7 @@ public class Alien extends AlienMaster implements Drawable {
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
-        this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+        this.color = new float[]{0.990f, 0.946f, 0.119f, 1.0f};
 
         // Initialize the transformation matrix
         transformationMatrix = new float[16];
@@ -463,7 +463,7 @@ public class Alien extends AlienMaster implements Drawable {
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, alienVerticesBuffer);
 
         // Scale, Rotate, Color
-        gl.glScalef(0.10f,0.10f,0.10f);
+        gl.glScalef(0.08f,0.08f,0.080f);
         gl.glRotatef(25f,1,0,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
 

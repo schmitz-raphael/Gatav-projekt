@@ -297,7 +297,7 @@ public class Alien1 extends AlienMaster implements Drawable{
         this.y = y;
         this.size = size;
         this.velocityX = velocityX;
-        this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+        this.color = new float[]{0.374f, 0.960f, 0.404f, 0f};
 
         // Initialize the transformation matrix
         transformationMatrix = new float[16];
@@ -376,6 +376,7 @@ public class Alien1 extends AlienMaster implements Drawable{
         // Scale, Rotate, Color
         gl.glScalef(0.10f,0.10f,0.10f);
         gl.glRotatef(25f,1,0,0);
+        gl.glRotatef(180f, 0,1,0);
         gl.glColor4f(color[0],color[1],color[2],color[3]);
 
         // Draw the cubes using triangles

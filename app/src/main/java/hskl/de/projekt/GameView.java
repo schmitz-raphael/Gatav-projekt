@@ -40,7 +40,6 @@ public class GameView extends GLSurfaceView {
         float startX = -2.0f;
         float startY = 5.0f;
         float size = 0.5f;
-        //float spacing = 1f;
         float velocityX = 0.5f;
 
         for (int i = 0; i < 5; i++) {

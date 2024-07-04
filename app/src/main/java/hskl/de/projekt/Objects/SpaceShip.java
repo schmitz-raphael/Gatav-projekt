@@ -951,8 +951,8 @@ public class SpaceShip implements Drawable {
         //set the initial velocity to 0
         this.velocity = 0;
 
-        //set the color to white
-        this.color = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+        //set the color
+        this.color = new float[]{0.816f, 0.119f, 0.990f, 1.0f};
 
         //initialize the transformation matrix to an empty array of length 16
         transformationMatrix = new float[16];
