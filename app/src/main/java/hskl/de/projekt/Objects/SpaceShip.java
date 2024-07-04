@@ -1024,7 +1024,7 @@ public class SpaceShip implements Drawable {
         float size = 0.1f;
         Matrix.scaleM(transformationMatrix, 0, size, size, size);
         // rotate the ship to make it look cool
-        rotate(9, velocity * 3, 0);
+        rotate(0, velocity * 3, 0);
 
         //update projectiles
         ArrayList<Projectile> cpy = new ArrayList<>(projectiles);
