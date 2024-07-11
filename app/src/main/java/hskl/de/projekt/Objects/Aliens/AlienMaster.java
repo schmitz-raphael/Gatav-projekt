@@ -15,5 +15,9 @@ public abstract class AlienMaster {
 
     public abstract float getY();
 
+    public abstract void setY();
+
+    public abstract boolean checkBoundaries();
+
     public abstract ArrayList<Projectile> getProjectiles();
 }

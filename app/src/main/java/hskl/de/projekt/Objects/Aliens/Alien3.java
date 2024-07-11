@@ -202,16 +202,16 @@ public class Alien3 extends AlienMaster implements Drawable {
         // Update position
         x += velocityX * deltaTime;
         //check boundaries
-        if (x <= leftBoundary) {
-            x = leftBoundary;
-            velocityX *= -1;
-            y -= rowDown;
-        }
-        if (x >= rightBoundary) {
-            x = rightBoundary;
-            velocityX *= -1;
-            y -= rowDown;
-        }
+//        if (x <= leftBoundary) {
+//            x = leftBoundary;
+//            velocityX *= -1;
+//            y -= rowDown;
+//        }
+//        if (x >= rightBoundary) {
+//            x = rightBoundary;
+//            velocityX *= -1;
+//            y -= rowDown;
+//        }
         // Update transformation matrix with new position
         Matrix.setIdentityM(transformationMatrix, 0);
         Matrix.translateM(transformationMatrix, 0, x, y, 0);
@@ -259,7 +259,7 @@ public class Alien3 extends AlienMaster implements Drawable {
             alienFacesBuffer.position(3 * i);
             gl.glDrawElements(GL10.GL_TRIANGLES, 3, GL10.GL_UNSIGNED_SHORT, alienFacesBuffer);
         }
-
+        alienFacesBuffer.position(0);
         // Disable vertex arrays
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
@@ -269,12 +269,30 @@ public class Alien3 extends AlienMaster implements Drawable {
             projectile.draw(gl);
         }
     }
-
+    public boolean checkBoundaries() {
+        if (x <= leftBoundary) {
+//            x = leftBoundary;
+//            velocityX *= -1;
+            return true;
+        }
+        if (x >= rightBoundary) {
+//            x = rightBoundary;
+//            velocityX *= -1;
+            return true;
+        }
+        return false;
+    }
     public float getX() {
         return transformationMatrix[12];
     }
     public float getY() {
         return transformationMatrix[13];
+    }
+    public void setY() {
+        y -= rowDown;
+        if (x <= leftBoundary) x =leftBoundary;
+        else if (x >= rightBoundary) x = rightBoundary;
+        velocityX *= -1;
     }
     public ArrayList<Projectile> getProjectiles() {
         return projectiles;

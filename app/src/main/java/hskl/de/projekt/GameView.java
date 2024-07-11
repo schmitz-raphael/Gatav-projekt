@@ -143,10 +143,11 @@ public class GameView extends GLSurfaceView {
             // Draw the spaceship
             ship.draw(gl);
             // Update and draw aliens
-            for (AlienMaster alien : aliens) {
-                alien.update(fracSec);
-                alien.draw(gl);
-            }
+//            for (AlienMaster alien : aliens) {
+//                alien.update(fracSec);
+//                alien.draw(gl);
+//            }
+            updateAliens(fracSec, gl);
             // Spawn new Aliens
             if (aliens.isEmpty()) {
                 initAliens();
@@ -161,7 +162,7 @@ public class GameView extends GLSurfaceView {
             for (AlienMaster alien : aliens) {
                 for (Projectile proj : ship.getProjectiles()) {
                     float squaredDistance = ((proj.getX() - alien.getX()) * (proj.getX() - alien.getX()) + (proj.getY() - alien.getY()) * (proj.getY() - alien.getY()));
-                    if (squaredDistance < 0.20f) {
+                    if (squaredDistance < 0.2f) {
                         aliensToRemove.add(alien);
                         shipProjToRemove.add(proj);
                     }
@@ -170,7 +171,7 @@ public class GameView extends GLSurfaceView {
             for (AlienMaster alien : aliens) {
                 for (Projectile proj : alien.getProjectiles()) {
                     float squaredDistance = ((proj.getX() - ship.getX()) * (proj.getX() - ship.getX()) + (proj.getY() - ship.getY()) * (proj.getY() - ship.getY()));
-                    if (squaredDistance < 0.1f) {
+                    if (squaredDistance < 0.2f) {
                         alienProjToRemove.add(proj);
                     }
                 }
@@ -183,6 +184,26 @@ public class GameView extends GLSurfaceView {
             aliensToRemove.clear();
             shipProjToRemove.clear();
             alienProjToRemove.clear();
+        }
+
+        public void updateAliens(float fracSec, GL10 gl) {
+            for (AlienMaster alien : aliens) {
+                if (alien.checkBoundaries()) {
+                    alienDown(fracSec, gl);
+                    break;
+                } else {
+                    alien.update(fracSec);
+                    alien.draw(gl);
+                }
+            }
+        }
+
+        public void alienDown(float fracSec, GL10 gl) {
+            for (AlienMaster alien : aliens) {
+                alien.setY();
+                alien.update(fracSec);
+                alien.draw(gl);
+            }
         }
     }
 }
